@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Inicio de proyeto")
+                    Greeting("Inicio de proyeto de programacion para dispositivos moviles")
                 }
             }
         }
