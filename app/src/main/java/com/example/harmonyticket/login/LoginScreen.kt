@@ -1,4 +1,4 @@
-package com.example.harmonyticket
+package com.example.harmonyticket.login
 
 
 import android.app.Activity
@@ -35,6 +35,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -53,9 +54,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.harmonyticket.R
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(loginViewModel: LoginViewModel){
 
     // Background Gradient
     val dl = Brush.linearGradient(
@@ -73,7 +75,7 @@ fun LoginScreen(){
     ){
 
         Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center))
+        Body(Modifier.align(Alignment.Center),loginViewModel)
         Footer(Modifier.align(Alignment.BottomCenter))
 
     }
@@ -113,24 +115,14 @@ fun SignUp(){
     }
 }
 
-fun enableLogin(email: String, password: String):Boolean {
-    return Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length>=6
-}
+
 
 @Composable
-fun Body(modifier: Modifier){
+fun Body(modifier: Modifier, loginViewModel: LoginViewModel){
 
-    var email by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
-    
-    var isLoginEnable by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val email:String by loginViewModel.email.observeAsState(initial = "")
+    val password:String by loginViewModel.password.observeAsState(initial = "")
+    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
 
     Column(modifier = modifier) {
         ImageLogo(Modifier.align(Alignment.CenterHorizontally))
@@ -139,27 +131,28 @@ fun Body(modifier: Modifier){
         Spacer(modifier = Modifier.size(18.dp))
         Email(email){
 
-            email = it
-            isLoginEnable = enableLogin(email,password)
+            //email = it
+            loginViewModel.onLoginChanged(email=it,password=password)
+            //isLoginEnable = enableLogin(email,password)
 
         }
         Spacer(modifier = Modifier.size(8.dp))
         Password(password){
 
-            password = it
-            isLoginEnable = enableLogin(email,password)
+            loginViewModel.onLoginChanged(email=email,password=it)
+            //isLoginEnable = enableLogin(email,password)
         }
 
         Spacer(modifier = Modifier.size(6.dp))
         ForgetPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable)
+        LoginButton(isLoginEnable,loginViewModel)
     }
 }
 
 @Composable
-fun LoginButton(isLoginEnable:Boolean){
-    Button(onClick = {  },
+fun LoginButton(isLoginEnable:Boolean,loginViewModel: LoginViewModel){
+    Button(onClick = { loginViewModel.checkLogin()  },
         enabled = isLoginEnable,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(

@@ -6,45 +6,25 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import com.example.harmonyticket.login.LoginScreen
-import com.example.harmonyticket.login.LoginViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.harmonyticket.ui.theme.HarmonyTicketTheme
 
-class MainActivity : ComponentActivity() {
+class DashBoardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HarmonyTicketTheme {
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                  color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen(LoginViewModel(LocalContext.current))
-                   // Greeting("Inicio de proyeto de programacion para dispositivos moviles")
+
                 }
             }
         }
     }
 }
-/*
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HarmonyTicketTheme {
-        Greeting("Android")
-    }
-}
-
-*/
