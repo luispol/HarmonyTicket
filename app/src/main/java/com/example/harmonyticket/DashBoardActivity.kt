@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.harmonyticket.navigation.NavComponent
 import com.example.harmonyticket.ui.theme.HarmonyTicketTheme
 
 class DashBoardActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class DashBoardActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    NavComponent()
                 }
             }
         }

@@ -61,9 +61,10 @@ fun LoginScreen(loginViewModel: LoginViewModel){
 
     // Background Gradient
     val dl = Brush.linearGradient(
-        0.0f to Color(0xFFAC7BF0),
+        0.0f to Color(0xFF8450CC),
+        0.5f to Color(0xFFAD91D3),
         1.0f to Color(0xFFFFFFFF),
-        //1.0f to Color(0xFFAC7BF0),
+
         start = Offset.Zero,
         end = Offset.Infinite)
 
@@ -99,15 +100,21 @@ fun Footer(modifier: Modifier){
 
 @Composable
 fun SignUp(){
+    val font = FontFamily(
+        Font(R.font.vanillacaramel)
+    )
+
     Row(modifier =
     Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center) {
 
         Text(
             text = "Don't have an account?",
+            fontFamily = font,
             color = Color.Gray)
         Text(
             text = "Sign Up",
+            fontFamily = font,
             modifier = Modifier.padding(horizontal = 8.dp),
             fontWeight = FontWeight.Bold,
             color = Color(0xFF350080)
@@ -152,6 +159,10 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel){
 
 @Composable
 fun LoginButton(isLoginEnable:Boolean,loginViewModel: LoginViewModel){
+
+    val font = FontFamily(
+        Font(R.font.vanillacaramel)
+    )
     Button(onClick = { loginViewModel.checkLogin()  },
         enabled = isLoginEnable,
         modifier = Modifier.fillMaxWidth(),
@@ -163,15 +174,20 @@ fun LoginButton(isLoginEnable:Boolean,loginViewModel: LoginViewModel){
         )
     ) {
         Text(text = "Log In",
+            fontFamily = font,
             color = Color.White)
     }
 }
 
 @Composable
 fun ForgetPassword(modifier: Modifier){
+    val font = FontFamily(
+        Font(R.font.vanillacaramel)
+    )
     Text(
         text = "Forgot your password?",
         modifier = modifier,
+        fontFamily = font,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF350080)
@@ -183,6 +199,10 @@ fun ForgetPassword(modifier: Modifier){
 @Composable
 fun Password(password:String, onTextChange:(String)-> Unit){
 
+    val font = FontFamily(
+        Font(R.font.vanillacaramel)
+    )
+
     var passwordVisi by rememberSaveable {
         mutableStateOf(false)
     }
@@ -192,7 +212,7 @@ fun Password(password:String, onTextChange:(String)-> Unit){
         onValueChange = {onTextChange(it)},
         modifier = Modifier.fillMaxWidth(),
         shape = CircleShape,
-        label = { Text(text = "Password")},
+        label = { Text(text = "Password", fontFamily = font)},
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -227,13 +247,18 @@ fun Password(password:String, onTextChange:(String)-> Unit){
 @Composable
 fun Email(email:String, onTextChange:(String)-> Unit){
 
+    val font = FontFamily(
+        Font(R.font.vanillacaramel)
+    )
+
     TextField(
         value = email,
         onValueChange = {onTextChange(it)},
         modifier = Modifier.fillMaxWidth(),
         shape = CircleShape,
         textStyle = LocalTextStyle.current.copy(color = Color(0xFF4600A7)),
-        label = { Text(text = "Email")},
+        label = { Text(text = "Email",
+            fontFamily = font)},
         maxLines = 1,
         singleLine = true,
         trailingIcon = {
@@ -252,24 +277,27 @@ fun Email(email:String, onTextChange:(String)-> Unit){
 @Composable
 fun Brand(modifier: Modifier){
     val font = FontFamily(
-        Font(R.font.anjaeliane)
+        Font(R.font.playground)
     )
-    Text(text = "Harmony Ticket",
+    Text(text = "Harmony Ticket®",
         fontFamily = font,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
+        fontSize = 25.sp,
+        fontWeight = FontWeight.SemiBold,
         modifier = modifier
     )
 }
 @Composable
 fun ImageLogo(modifier: Modifier){
     Image(
-        painter = painterResource(id = R.drawable.ticketlogo),
+        painter = painterResource(id = R.drawable.logo),
         contentDescription = "logo",
-        modifier = modifier)
+        modifier = modifier
+            .size(280.dp))
+
 }
 @Composable
 fun Header(modifier: Modifier){
+
     val activity = LocalContext.current as Activity
 
     Icon(
