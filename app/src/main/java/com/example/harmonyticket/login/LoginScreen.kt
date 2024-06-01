@@ -2,7 +2,6 @@ package com.example.harmonyticket.login
 
 
 import android.app.Activity
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,8 +40,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -55,36 +52,34 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.harmonyticket.R
+import com.example.harmonyticket.component.fontComic
+import com.example.harmonyticket.component.fontPlayground
+import com.example.harmonyticket.ui.theme.dl
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel){
 
-    // Background Gradient
-    val dl = Brush.linearGradient(
-        0.0f to Color(0xFF8450CC),
-        0.5f to Color(0xFFAD91D3),
-        1.0f to Color(0xFFFFFFFF),
+    val isRegisterVisible:Boolean by loginViewModel.isRegisterVisible.observeAsState(initial = false)
+    if (isRegisterVisible) {
+        RegisterScreen(loginViewModel = loginViewModel)
+    } else {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(dl)
+            .padding(8.dp)
 
-        start = Offset.Zero,
-        end = Offset.Infinite)
+        ){
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(dl)
-        .padding(8.dp)
+            Header(Modifier.align(Alignment.TopEnd))
+            Body(Modifier.align(Alignment.Center),loginViewModel)
+            Footer(Modifier.align(Alignment.BottomCenter), loginViewModel)
 
-    ){
-
-        Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center),loginViewModel)
-        Footer(Modifier.align(Alignment.BottomCenter))
-
+        }
     }
-
 }
 
 @Composable
-fun Footer(modifier: Modifier){
+fun Footer(modifier: Modifier, loginViewModel: LoginViewModel){
     Column(modifier = modifier.fillMaxWidth()) {
         Divider(
             modifier = Modifier
@@ -93,15 +88,15 @@ fun Footer(modifier: Modifier){
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(24.dp))
-        SignUp()
+        SignUp(loginViewModel)
         Spacer(modifier = Modifier.size(24.dp))
     }
 }
 
 @Composable
-fun SignUp(){
+fun SignUp(loginViewModel: LoginViewModel) {
     val font = FontFamily(
-        Font(R.font.vanillacaramel)
+        Font(R.font.heycomic)
     )
 
     Row(modifier =
@@ -115,7 +110,11 @@ fun SignUp(){
         Text(
             text = "Sign Up",
             fontFamily = font,
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .clickable {
+                    loginViewModel.onRegisterVisible(true)
+                },
             fontWeight = FontWeight.Bold,
             color = Color(0xFF350080)
         )
@@ -133,7 +132,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel){
 
     Column(modifier = modifier) {
         ImageLogo(Modifier.align(Alignment.CenterHorizontally))
-        Spacer(modifier = Modifier.size(10.dp))
+        //Spacer(modifier = Modifier.size(5.dp))
         Brand(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(18.dp))
         Email(email){
@@ -160,9 +159,6 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel){
 @Composable
 fun LoginButton(isLoginEnable:Boolean,loginViewModel: LoginViewModel){
 
-    val font = FontFamily(
-        Font(R.font.vanillacaramel)
-    )
     Button(onClick = { loginViewModel.checkLogin()  },
         enabled = isLoginEnable,
         modifier = Modifier.fillMaxWidth(),
@@ -174,20 +170,18 @@ fun LoginButton(isLoginEnable:Boolean,loginViewModel: LoginViewModel){
         )
     ) {
         Text(text = "Log In",
-            fontFamily = font,
+            fontFamily = fontComic,
             color = Color.White)
     }
 }
 
 @Composable
 fun ForgetPassword(modifier: Modifier){
-    val font = FontFamily(
-        Font(R.font.vanillacaramel)
-    )
+
     Text(
         text = "Forgot your password?",
         modifier = modifier,
-        fontFamily = font,
+        fontFamily = fontComic,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF350080)
@@ -199,10 +193,6 @@ fun ForgetPassword(modifier: Modifier){
 @Composable
 fun Password(password:String, onTextChange:(String)-> Unit){
 
-    val font = FontFamily(
-        Font(R.font.vanillacaramel)
-    )
-
     var passwordVisi by rememberSaveable {
         mutableStateOf(false)
     }
@@ -212,7 +202,7 @@ fun Password(password:String, onTextChange:(String)-> Unit){
         onValueChange = {onTextChange(it)},
         modifier = Modifier.fillMaxWidth(),
         shape = CircleShape,
-        label = { Text(text = "Password", fontFamily = font)},
+        label = { Text(text = "Password", fontFamily = fontComic)},
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -235,7 +225,7 @@ fun Password(password:String, onTextChange:(String)-> Unit){
                PasswordVisualTransformation()
         },
 
-        textStyle = LocalTextStyle.current.copy(color = Color(0xFF4600A7)),
+        textStyle = LocalTextStyle.current.copy(color = Color(0xFF4600A7), fontFamily = fontComic),
         //placeholder = { Text(text = "Password")},
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
@@ -247,22 +237,18 @@ fun Password(password:String, onTextChange:(String)-> Unit){
 @Composable
 fun Email(email:String, onTextChange:(String)-> Unit){
 
-    val font = FontFamily(
-        Font(R.font.vanillacaramel)
-    )
 
     TextField(
         value = email,
         onValueChange = {onTextChange(it)},
         modifier = Modifier.fillMaxWidth(),
         shape = CircleShape,
-        textStyle = LocalTextStyle.current.copy(color = Color(0xFF4600A7)),
+        textStyle = LocalTextStyle.current.copy(color = Color(0xFF4600A7), fontFamily = fontComic),
         label = { Text(text = "Email",
-            fontFamily = font)},
+            fontFamily = fontComic)},
         maxLines = 1,
         singleLine = true,
         trailingIcon = {
-
             Icon(imageVector = Icons.Filled.Email, contentDescription = "")
         },
 
@@ -276,11 +262,9 @@ fun Email(email:String, onTextChange:(String)-> Unit){
 
 @Composable
 fun Brand(modifier: Modifier){
-    val font = FontFamily(
-        Font(R.font.playground)
-    )
+
     Text(text = "Harmony Ticket®",
-        fontFamily = font,
+        fontFamily = fontPlayground,
         fontSize = 25.sp,
         fontWeight = FontWeight.SemiBold,
         modifier = modifier
@@ -289,7 +273,7 @@ fun Brand(modifier: Modifier){
 @Composable
 fun ImageLogo(modifier: Modifier){
     Image(
-        painter = painterResource(id = R.drawable.logo),
+        painter = painterResource(id = R.drawable.newlogo),
         contentDescription = "logo",
         modifier = modifier
             .size(280.dp))

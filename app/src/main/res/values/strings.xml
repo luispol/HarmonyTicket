@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HarmonyTicket</string>
     <string name="title_activity_dash_board">DashBoardActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>
