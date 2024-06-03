@@ -184,8 +184,10 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
 
                         Spacer(modifier = Modifier.size(5.dp))
                         
-                        OutlinedButton(onClick = { /*TODO*/ }) {
+                        OutlinedButton(onClick = {
                             itemConcertViewMode.setQuantity(quantity-1)
+                        }) {
+
                             Text(
                                 text = "-",
                                 modifier = Modifier.padding(start = 5.dp, end = 5.dp),
