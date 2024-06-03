@@ -1,4 +1,4 @@
-package com.example.harmonyticket.ui.theme
+package com.example.harmonyticket.component
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush

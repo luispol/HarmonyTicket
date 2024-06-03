@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.sp
 import com.example.harmonyticket.R
 import com.example.harmonyticket.component.fontComic
 import com.example.harmonyticket.component.fontPlayground
-import com.example.harmonyticket.ui.theme.dl
+import com.example.harmonyticket.component.dl
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel){

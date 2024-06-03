@@ -14,6 +14,12 @@ import com.example.harmonyticket.DashBoardActivity
 import com.example.harmonyticket.login.domain.LoginUseCase
 import com.example.harmonyticket.util.StoreToken
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class LoginViewModel(val context: Context): ViewModel() {
 
@@ -101,11 +107,30 @@ class LoginViewModel(val context: Context): ViewModel() {
 
     fun registerUser(){
         viewModelScope.launch {
-            val result = loginUseCase.register(
-                _userName.value!!,
-                _passwordUser.value!!,
-                _names.value!!,
-                _lastnames.value!!)
+//            val result = loginUseCase.register(
+//                _userName.value!!,
+//                _passwordUser.value!!,
+//                _names.value!!,
+//                _lastnames.value!!)
+
+            val userNamePart = _userName.value!!.toRequestBody("text/plain".toMediaTypeOrNull())
+            val userPassPart = _passwordUser.value!!.toRequestBody("text/plain".toMediaTypeOrNull())
+            val namePart = _names.value!!.toRequestBody("text/plain".toMediaTypeOrNull())
+            val lastNamePart = _lastnames.value!!.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            val result = if (_imageUri.value?.path?.isNotEmpty() == true)  {
+
+                val path = "${context.externalCacheDir}/${_imageUri.value!!.pathSegments[1]}"
+                val file = File(path)
+                val photo:MultipartBody.Part = MultipartBody.Part.createFormData(
+                    "photo",
+                    file.name,
+                    file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                )
+                loginUseCase.register(userNamePart, userPassPart, namePart, lastNamePart, photo)
+            } else {
+                loginUseCase.register(userNamePart, userPassPart, namePart, lastNamePart)
+            }
 
             if (result.success){
                 Toast.makeText(

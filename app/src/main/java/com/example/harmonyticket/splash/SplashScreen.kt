@@ -26,7 +26,7 @@ import com.example.harmonyticket.DashBoardActivity
 import com.example.harmonyticket.MainActivity
 import com.example.harmonyticket.R
 import com.example.harmonyticket.login.Brand
-import com.example.harmonyticket.ui.theme.dl
+import com.example.harmonyticket.component.dl
 import com.example.harmonyticket.util.StoreToken
 import kotlinx.coroutines.delay
 
