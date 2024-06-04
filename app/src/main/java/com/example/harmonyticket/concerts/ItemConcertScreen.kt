@@ -176,7 +176,7 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
 
                                 )
                         ) {
-                            Text(text = "Agregar",
+                            Text(text = "Add",
                                 fontFamily = fontComic,
                                 fontWeight = FontWeight.Bold
                             )
