@@ -26,6 +26,7 @@ class ConcertsViewModel(val context: Context): ViewModel() {
     private val _concerts = MutableStateFlow<List<ConcertsCatalog>>(emptyList())
     val concerts:StateFlow<List<ConcertsCatalog>> = _concerts
 
+
     fun loadData() {
         viewModelScope.launch {
             token.collect{
