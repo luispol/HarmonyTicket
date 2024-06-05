@@ -41,7 +41,12 @@ class ConcertsViewModel(val context: Context): ViewModel() {
     }
 
     fun getTotalItems(){
-
+        viewModelScope.launch {
+            itemList.collect{
+                listConcert->
+                _totalItems.value = listConcert.size
+            }
+        }
     }
 
 

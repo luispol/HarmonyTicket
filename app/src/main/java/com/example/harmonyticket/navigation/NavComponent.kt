@@ -1,6 +1,8 @@
 package com.example.harmonyticket.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +21,7 @@ fun NavComponent(){
    val navigationController = rememberNavController()
    val concertsViewModel = ConcertsViewModel(LocalContext.current)
    val itemConcertViewModel = ItemConcertViewMode(LocalContext.current)
+   val totalItems by concertsViewModel.totalItems.observeAsState(initial = 25)
 
    NavHost(navController = navigationController, startDestination = Routes.Dashboard.route) {
       composable(route=Routes.Dashboard.route) {
