@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
+import com.example.harmonyticket.account.AccountViewModel
 import com.example.harmonyticket.account.accountScreen
 import com.example.harmonyticket.concerts.ConcertsViewModel
 import com.example.harmonyticket.concerts.DashboardScreen
@@ -27,6 +28,7 @@ fun NavComponent(){
    val totalItems by concertsViewModel.totalItems.observeAsState(initial = 0)
    val shoppingCartViewModel = ShoppingCartViewModel(LocalContext.current)
    val myTicketsViewModel = MyTicketsViewModel(LocalContext.current)
+   val accountViewModel = AccountViewModel(LocalContext.current)
 
    NavHost(navController = navigationController, startDestination = Routes.Dashboard.route) {
       composable(route=Routes.Dashboard.route) {
@@ -43,7 +45,8 @@ fun NavComponent(){
       }
 
          composable(route=Routes.Account.route) {
-            accountScreen(navigationController,totalItems)
+            accountViewModel.loadData()
+            accountScreen(navigationController,totalItems,accountViewModel)
       }
 
       composable(route=Routes.ItemScreen.route) {arg->

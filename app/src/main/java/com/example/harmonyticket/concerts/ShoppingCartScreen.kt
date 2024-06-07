@@ -75,21 +75,21 @@ fun ShoppingCartScreen(
 
                         Column(Modifier.fillMaxSize()) {
 
-                            Box(
-                                modifier = Modifier
-                                    .size(180.dp)
-                                    .padding(5.dp)
-                                    .clip(RoundedCornerShape(5.dp))
-                            ) {
-
-                                Image(
-                                    painter = rememberAsyncImagePainter(model = concert.foto),
-                                    contentDescription = "",
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentScale = ContentScale.Crop
-
-                                )
-                            }
+//                            Box(
+//                                modifier = Modifier
+//                                    .size(180.dp)
+//                                    .padding(5.dp)
+//                                    .clip(RoundedCornerShape(5.dp))
+//                            ) {
+//
+//                                Image(
+//                                    painter = rememberAsyncImagePainter(model = concert.foto),
+//                                    contentDescription = "",
+//                                    modifier = Modifier.fillMaxSize(),
+//                                    contentScale = ContentScale.Crop
+//
+//                                )
+//                            }
 
                             Column {
                                 Text(
