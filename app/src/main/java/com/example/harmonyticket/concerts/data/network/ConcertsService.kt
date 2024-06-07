@@ -2,9 +2,11 @@ package com.example.harmonyticket.concerts.data.network
 
 import com.example.harmonyticket.concerts.data.network.response.ConcertsResponse
 import com.example.harmonyticket.concerts.data.network.response.ItemConcertResponse
+import com.example.harmonyticket.concerts.data.network.response.OrderResponse
 import com.example.harmonyticket.core.network.RetroFitHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.RequestBody
 import retrofit2.Retrofit
 
 class ConcertsService {
@@ -26,6 +28,18 @@ class ConcertsService {
                 response.body()?.success ?: false,
                 response.body()!!.data
             )
+
+        }
+    }
+
+    suspend fun saveOrder(token:String, dataJson:RequestBody):OrderResponse{
+        return withContext(Dispatchers.IO) {
+            val response = retrofit.create(ConcertsClient::class.java).saveOrder(token, dataJson)
+            OrderResponse(
+                response.body()?.success ?: false,
+                response.body()?.msg ?: ""
+            )
+
 
         }
     }

@@ -12,7 +12,9 @@ import com.example.harmonyticket.account.accountScreen
 import com.example.harmonyticket.concerts.ConcertsViewModel
 import com.example.harmonyticket.concerts.DashboardScreen
 import com.example.harmonyticket.concerts.ItemConcertScreen
-import com.example.harmonyticket.concerts.ItemConcertViewMode
+import com.example.harmonyticket.concerts.ItemConcertsViewModel
+import com.example.harmonyticket.concerts.ShoppingCartScreen
+import com.example.harmonyticket.concerts.ShoppingCartViewModel
 import com.example.harmonyticket.tickets.myTicketScreen
 
 
@@ -20,29 +22,35 @@ import com.example.harmonyticket.tickets.myTicketScreen
 fun NavComponent(){
    val navigationController = rememberNavController()
    val concertsViewModel = ConcertsViewModel(LocalContext.current)
-   val itemConcertViewModel = ItemConcertViewMode(LocalContext.current)
-   val totalItems by concertsViewModel.totalItems.observeAsState(initial = 25)
+   val itemConcertViewModel = ItemConcertsViewModel(LocalContext.current)
+   val totalItems by concertsViewModel.totalItems.observeAsState(initial = 0)
+   val shoppingCartViewModel = ShoppingCartViewModel(LocalContext.current)
 
    NavHost(navController = navigationController, startDestination = Routes.Dashboard.route) {
       composable(route=Routes.Dashboard.route) {
+         concertsViewModel.getTotalItems()
          concertsViewModel.loadData()
-         DashboardScreen(navigationController, concertsViewModel)
+         DashboardScreen(navigationController, concertsViewModel, totalItems)
       }
 
 
       composable(route=Routes.MyTickets.route) {
-         myTicketScreen(navigationController)
+         myTicketScreen(navigationController, totalItems)
 
       }
 
          composable(route=Routes.Account.route) {
-            accountScreen(navigationController)
+            accountScreen(navigationController,totalItems)
       }
 
       composable(route=Routes.ItemScreen.route) {arg->
          val id = arg.arguments?.getString("id")
          itemConcertViewModel.getOneConcert(id!!)
-         ItemConcertScreen(navigationController, itemConcertViewModel)
+         ItemConcertScreen(navigationController, itemConcertViewModel,totalItems)
+      }
+
+      composable(route=Routes.ShoppingScreen.route) {arg->
+         ShoppingCartScreen(navigationController, shoppingCartViewModel, totalItems)
       }
    }
 }

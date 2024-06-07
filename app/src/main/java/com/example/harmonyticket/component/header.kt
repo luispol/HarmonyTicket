@@ -1,6 +1,7 @@
 package com.example.harmonyticket.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,11 +24,13 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.harmonyticket.R
+import com.example.harmonyticket.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(){
+fun MyTopAppBar(totalItems: Int, navigationController: NavHostController) {
 
     val font = FontFamily(
         Font(R.font.playground)
@@ -64,10 +67,12 @@ fun MyTopAppBar(){
             BadgedBox(
                 badge = {
                     Badge(contentColor = Color.White){
-                        Text(text = "0")
+                        Text(text = "$totalItems")
                     }
                 },
-                modifier = Modifier.padding(end=12.dp)
+                modifier = Modifier.padding(end=12.dp).clickable {
+                    navigationController.navigate(Routes.ShoppingScreen.route)
+                }
             ) {
                 Icon(
 

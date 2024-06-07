@@ -31,30 +31,30 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import com.example.harmonyticket.R
 import com.example.harmonyticket.component.TemplateApp
 import com.example.harmonyticket.component.fontComic
 import com.example.harmonyticket.navigation.Routes
-import com.google.gson.annotations.SerializedName
 import java.text.NumberFormat
 
 @Composable
-fun DashboardScreen(navigationController: NavHostController, concertsViewModel: ConcertsViewModel){
-    TemplateApp(navigationController = navigationController){
+fun DashboardScreen(
+    navigationController: NavHostController,
+    concertsViewModel: ConcertsViewModel,
+    totalItems: Int
+){
+    TemplateApp(navigationController = navigationController, totalItems){
 
         Column(
             Modifier
@@ -77,6 +77,7 @@ fun DashboardScreen(navigationController: NavHostController, concertsViewModel: 
 @Composable
 fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: NavHostController){
     val concerts by concertsViewModel.concerts.collectAsState()
+
     LazyColumn(modifier = Modifier.padding(5.dp)) {
         items(concerts){concerts->
             Column(
@@ -90,7 +91,7 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
                 Row {
                     Box(
                         modifier = Modifier
-                            .size(150.dp)
+                            .size(180.dp)
                             .padding(5.dp)
                             .clip(RoundedCornerShape(5.dp))
                     ) {
@@ -108,7 +109,7 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
                     Column {
                         Text(
                             text = "Artist: ${concerts.nombre_cantante}",
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = fontComic,
                             textAlign = TextAlign.Left,
@@ -130,6 +131,31 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
                         )
 
                         Text(
+                            text = "Genre: ${concerts.genero}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = fontComic,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
+                                .fillMaxWidth()
+
+                        )
+
+                        Text(
+                            text = "Concert: ${concerts.lugar}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = fontComic,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
+                                .fillMaxWidth()
+
+                        )
+
+
+                        Text(
                             text = "Date: ${concerts.fecha}",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -140,31 +166,31 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
                                 .fillMaxWidth()
 
                         )
-                        val price = NumberFormat.getCurrencyInstance().format(concerts.precio.toDouble())
-                        Text(
+//                        val price = NumberFormat.getCurrencyInstance().format(concerts.precio.toDouble())
+//                        Text(
+//
+//                            text = "Price: ${price}",
+//                            fontSize = 12.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = fontComic,
+//                            textAlign = TextAlign.Left,
+//                            modifier = Modifier
+//                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
+//                                .fillMaxWidth()
+//
+//                        )
 
-                            text = "Price: ${price}",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = fontComic,
-                            textAlign = TextAlign.Left,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
-                                .fillMaxWidth()
-
-                        )
-
-                        Text(
-                            text = "Limited tickets: ${concerts.existencia}",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = fontComic,
-                            textAlign = TextAlign.Left,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
-                                .fillMaxWidth()
-
-                        )
+//                        Text(
+//                            text = "Limited tickets: ${concerts.existencia}",
+//                            fontSize = 12.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = fontComic,
+//                            textAlign = TextAlign.Left,
+//                            modifier = Modifier
+//                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
+//                                .fillMaxWidth()
+//
+//                        )
                     }
                 }
 
@@ -201,25 +227,25 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
 
                         Spacer(modifier = Modifier.size(5.dp))
 
-                        Button(onClick = {
-
-                        },
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF1E162B),
-                                contentColor = Color.White,
-
-
-                                )
-                        ) {
-                            Text(text = "Location",
-                                fontFamily = fontComic,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+//                        Button(onClick = {
+//                            ShoppingCartViewModel
+//                        },
+//                            modifier = Modifier
+//                                .weight(1f)
+//                                .fillMaxWidth(),
+//                            shape = RoundedCornerShape(5.dp),
+//                            colors = ButtonDefaults.buttonColors(
+//                                containerColor = Color(0xFF1E162B),
+//                                contentColor = Color.White,
+//
+//
+//                                )
+//                        ) {
+//                            Text(text = "clean",
+//                                fontFamily = fontComic,
+//                                fontWeight = FontWeight.Bold
+//                            )
+//                        }
                     }
 
                 }

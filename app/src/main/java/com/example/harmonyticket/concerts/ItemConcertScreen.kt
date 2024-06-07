@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Stadium
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,15 +43,19 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.harmonyticket.component.TemplateApp
 import com.example.harmonyticket.component.fontCaramel
 import com.example.harmonyticket.component.fontComic
-import com.example.harmonyticket.navigation.Routes
+import com.example.harmonyticket.util.ConcertShoppingCart
 import java.text.NumberFormat
 
 @Composable
-fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMode: ItemConcertViewMode){
-    val concert by itemConcertViewMode.concert.collectAsState()
-    val quantity by itemConcertViewMode.quantity.observeAsState(initial = 1)
+fun ItemConcertScreen(
+    navigationController: NavHostController,
+    itemConcertViewModel: ItemConcertsViewModel,
+    totalItems: Int
+){
+    val concert by itemConcertViewModel.concert.collectAsState()
+    val quantity by itemConcertViewModel.quantity.observeAsState(initial = 1)
 
-    TemplateApp(navigationController = navigationController){
+    TemplateApp(navigationController = navigationController, totalItems){
 
         Column(
             Modifier
@@ -101,6 +103,18 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
 
                         Text(
                             text = "Concert: ${concert.nombre_concierto}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = fontComic,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 5.dp, bottom = 5.dp, top = 5.dp)
+                                .fillMaxWidth()
+
+                        )
+
+                        Text(
+                            text = "Concert: ${concert.lugar}",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = fontComic,
@@ -163,7 +177,32 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
                     ) {
 
                         Button(onClick = {
-                            navigationController.navigate(Routes.ItemScreen.createRoute(concert.id_concert))
+                            itemConcertViewModel.saveShoppingCart(
+                                ConcertShoppingCart(
+                                    concert.id_concert,
+                                    concert.nombre_concierto,
+                                    concert.nombre_cantante,
+                                    concert.fecha,
+                                    concert.lugar,
+                                    concert.precio,
+                                    concert.existencia,
+                                    concert.genero,
+                                    concert.foto,
+                                    quantity
+
+                                )
+
+//                            val id_concierto:String="",
+//                            val nombre_concierto:String="",
+//                            val nombre_cantante:String="",
+//                            val fecha:String="",
+//                            val lugar:String="",
+//                            val precio:String="",
+//                            val existencia:String="String",
+//                            val genero:String="String",
+//                            val foto:String="",
+//                            val cantidad:Int=0
+                            )
                         },
                             modifier = Modifier
                                 .weight(1f)
@@ -185,7 +224,7 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
                         Spacer(modifier = Modifier.size(5.dp))
                         
                         OutlinedButton(onClick = {
-                            itemConcertViewMode.setQuantity(quantity-1)
+                            itemConcertViewModel.setQuantity(quantity-1)
                         }) {
 
                             Text(
@@ -215,7 +254,7 @@ fun ItemConcertScreen(navigationController: NavHostController, itemConcertViewMo
                         Spacer(modifier = Modifier.size(5.dp))
 
                         OutlinedButton(onClick = {
-                            itemConcertViewMode.setQuantity(quantity+1)
+                            itemConcertViewModel.setQuantity(quantity+1)
                         }) {
 
                             Text(

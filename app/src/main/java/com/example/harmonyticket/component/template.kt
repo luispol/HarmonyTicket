@@ -12,10 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 
 @Composable
-fun TemplateApp(navigationController:NavHostController, content:@Composable (PaddingValues)->Unit){
+fun TemplateApp(navigationController:NavHostController, totalItems:Int, content:@Composable (PaddingValues)->Unit){
 
     Scaffold(
-        topBar = { MyTopAppBar() },
+        topBar = { MyTopAppBar(totalItems, navigationController) },
         bottomBar = { MyButtonNavigation(navigationController) },
         containerColor = Color.Transparent
     ) { innerPadding ->

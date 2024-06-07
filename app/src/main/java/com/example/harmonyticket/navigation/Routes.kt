@@ -7,4 +7,7 @@ sealed class Routes(val route:String) {
     object ItemScreen:Routes("itemconcert/{id}"){
         fun createRoute(id:String) = "itemconcert/$id"
     }
+
+    object ShoppingScreen:Routes("shoppingcart")
+
 }

@@ -17,10 +17,13 @@ class ConcertsViewModel(val context: Context): ViewModel() {
 
     val dataStore = StoreToken(context)
     val token = dataStore.getToken
+
     val dataShoppingCart = StoreShoppingCart(context)
     val itemList = dataShoppingCart.getShoppingCart
-    private val _totalItems=MutableLiveData<Int>()
+
+    private val _totalItems = MutableLiveData<Int>()
     val totalItems:LiveData<Int> = _totalItems
+
     val concertsUseCase = ConcertsUseCase()
 
     private val _concerts = MutableStateFlow<List<ConcertsCatalog>>(emptyList())
