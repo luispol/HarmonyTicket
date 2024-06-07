@@ -15,7 +15,12 @@ class ConcertsRepository {
         return api.getOne(token, id).data
     }
 
-    suspend fun saveOrder(token:String, dataJson:RequestBody):OrderResponse{
+    /*suspend fun saveOrder(token:String, dataJson:RequestBody):OrderResponse{
         return api.saveOrder(token, dataJson)
+    }*/
+
+    suspend fun saveOrder(token: String, idConcert: String): OrderResponse {
+        return api.saveOrder(token, idConcert)
     }
+
 }

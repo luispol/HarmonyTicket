@@ -248,7 +248,8 @@ fun ShoppingCartScreen(
 
             ){
                 Button(onClick = {
-                    shoppingCartViewModel.saveOrder()
+                    val concertId = listConcertShoppingCart.firstOrNull()?.id_concierto ?: ""
+                    shoppingCartViewModel.saveOrder(concertId)
                 },
                     modifier = Modifier
                         .fillMaxWidth(),

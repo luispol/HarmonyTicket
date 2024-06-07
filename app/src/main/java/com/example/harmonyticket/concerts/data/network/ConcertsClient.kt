@@ -8,7 +8,9 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,10 +27,11 @@ interface ConcertsClient {
         @Query("id") id:String
     ):Response<ItemConcertResponse>
 
+    @Multipart
     @POST("mytickets/saveMyTicket/{token}")
     suspend fun saveOrder(
         @Path("token") token: String,
-        @Body dataJson:RequestBody
-    ):Response<OrderResponse>
+        @Part("id_concert") idConcert: RequestBody
+    ): Response<OrderResponse>
 }
 

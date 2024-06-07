@@ -44,12 +44,22 @@ class ShoppingCartViewModel(val context:Context): ViewModel() {
         }
     }
 
-    fun saveOrder() {
+    /*fun saveOrder() {
         viewModelScope.launch {
             token.collect {
                 val items = Json.encodeToString(_listConcertShoppingCart.value)
                 val json = items.toRequestBody("application/json".toMediaTypeOrNull())
                 val result = concertsUseCase.saveOrder(it, json)
+                Toast.makeText(context, result.msg, Toast.LENGTH_LONG).show()
+                dataShoppingCart.saveShoppingCart(emptyList())
+            }
+        }
+    }*/
+
+    fun saveOrder(idConcert: String) {
+        viewModelScope.launch {
+            token.collect { userToken ->
+                val result = concertsUseCase.saveOrder(userToken, idConcert)
                 Toast.makeText(context, result.msg, Toast.LENGTH_LONG).show()
                 dataShoppingCart.saveShoppingCart(emptyList())
             }

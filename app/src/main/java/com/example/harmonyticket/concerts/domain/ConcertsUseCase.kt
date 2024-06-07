@@ -18,8 +18,13 @@ class ConcertsUseCase {
         return repository.getOne(token, id)
     }
 
-    suspend fun saveOrder(token:String, dataJson:RequestBody):OrderResponse{
+   /* suspend fun saveOrder(token:String, dataJson:RequestBody):OrderResponse{
         return repository.saveOrder(token, dataJson)
+    }*/
+
+    suspend fun saveOrder(token: String, idConcert: String): OrderResponse {
+        return repository.saveOrder(token, idConcert)
     }
+
 
 }
