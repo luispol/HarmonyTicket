@@ -15,6 +15,7 @@ import com.example.harmonyticket.concerts.ItemConcertScreen
 import com.example.harmonyticket.concerts.ItemConcertsViewModel
 import com.example.harmonyticket.concerts.ShoppingCartScreen
 import com.example.harmonyticket.concerts.ShoppingCartViewModel
+import com.example.harmonyticket.tickets.MyTicketsViewModel
 import com.example.harmonyticket.tickets.myTicketScreen
 
 
@@ -25,6 +26,7 @@ fun NavComponent(){
    val itemConcertViewModel = ItemConcertsViewModel(LocalContext.current)
    val totalItems by concertsViewModel.totalItems.observeAsState(initial = 0)
    val shoppingCartViewModel = ShoppingCartViewModel(LocalContext.current)
+   val myTicketsViewModel = MyTicketsViewModel(LocalContext.current)
 
    NavHost(navController = navigationController, startDestination = Routes.Dashboard.route) {
       composable(route=Routes.Dashboard.route) {
@@ -35,7 +37,8 @@ fun NavComponent(){
 
 
       composable(route=Routes.MyTickets.route) {
-         myTicketScreen(navigationController, totalItems)
+         myTicketsViewModel.loadData()
+         myTicketScreen(navigationController, myTicketsViewModel,totalItems)
 
       }
 
