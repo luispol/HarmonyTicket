@@ -108,7 +108,7 @@ fun ListConcerts(concertsViewModel: ConcertsViewModel, navigationController: Nav
 
                     Column {
                         Text(
-                            text = "Artist: ${concerts.nombre_cantante}",
+                            text = "Artist: ${concerts.foto}",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = fontComic,

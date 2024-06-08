@@ -91,7 +91,7 @@ fun ItemConcertScreen(
 
                     Column {
                         Text(
-                            text = "Artist: ${concert.nombre_cantante}",
+                            text = "Artist: ${concert.foto}",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = fontComic,
